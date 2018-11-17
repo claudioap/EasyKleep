@@ -1,0 +1,32 @@
+{
+  "SECRET_KEY": "00000000000000000000000000000000000000000000000000",
+  "DATABASES": {
+    "default": {
+      "ENGINE": "django.db.backends.postgresql",
+      "NAME": "kleep",
+      "USER": "kleep",
+      "PASSWORD": "",
+      "HOST": "localhost",
+      "PORT": "5432"
+    },
+    "vulnerabilities": {
+      "ENGINE": "django.db.backends.sqlite3",
+      "NAME": "/kleep/vulnerabilities.db"
+    }
+  },
+  "CLIP_USERNAME": "",
+  "CLIP_PASSWORD": "",
+  "EMAIL_SERVER": "",
+  "EMAIL_ACCOUNT": "",
+  "EMAIL_PASSWORD": "",
+  "EMAIL_SUFFIX": "@campus.fct.unl.pt",
+  "PIWIK_DOMAIN_PATH": "",
+  "PIWIK_SITE_ID": "1",
+  "PIWIK_TOKEN_AUTH": "-",
+  "HOSTS": [
+    "kleep",
+    "kleep.local",
+    "localhost",
+    "0.0.0.0"
+  ]
+}
