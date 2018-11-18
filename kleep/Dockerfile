@@ -5,18 +5,23 @@ FROM archlinux/base
 LABEL maintainer="Cláudio Pereira <development@claudiop.com>"
 
 # Install required system packages.
-# base-devel:  Required to compile uwsgi (TODO: Remove after compilation)
+# gcc:         GCC (required to compile uwsgi)
 # python:      Django intrepreter
 # python-pip:  Python package manager
 # sqlite:      Read vulnerability database
 # gdal:        Geographical extensions
 # git:         Server version determination
-RUN pacman -Sy base-devel python python-pip sqlite gdal git --noconfirm --noprogressbar
+# After finished, 
+RUN pacman -Sy gcc python python-pip sqlite gdal git --noconfirm --noprogressbar --cachedir /tmp
 
 # Install pip packages
 COPY pip-packages /usr/src/
-RUN pip install --trusted-host pypi.python.org -r /usr/src/pip-packages
-RUN rm /usr/src/pip-packages
+RUN pip install --no-cache-dir --trusted-host pypi.python.org -r /usr/src/pip-packages  && rm /usr/src/pip-packages
+
+# Uninstall compiler & dependencies. Cleanup cleanup cache, doc's, man entries and unused locales.
+RUN pacman -Rns gcc --noconfirm --noprogressbar && \
+    rm -r /tmp /usr/share/doc /usr/share/man && \
+    rm -r $(ls -1 /usr/share/locale | grep -v -e '\(en\|pt\)' | sed -e 's/^/\/usr\/share\/locale\//')
 
 # Tag /kleep for export
 VOLUME  /kleep
@@ -29,4 +34,4 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Execute uwsgi daemon once this container runs
-ENTRYPOINT ["uwsgi", "/kleep/uwsgi.ini"]
+ENTRYPOINT ["uwsgi", "configurations/uwsgi/kleep.ini"]
