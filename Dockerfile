@@ -10,7 +10,8 @@ LABEL maintainer="Cláudio Pereira <development@claudiop.com>"
 # python-pip:  Python package manager
 # sqlite:      Read vulnerability database
 # gdal:        Geographical extensions
-RUN pacman -Sy base-devel python python-pip sqlite gdal --noconfirm --noprogressbar
+# git:         Server version determination
+RUN pacman -Sy base-devel python python-pip sqlite gdal git --noconfirm --noprogressbar
 
 # Install pip packages
 COPY pip-packages /usr/src/
@@ -28,4 +29,4 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Execute uwsgi daemon once this container runs
-#ENTRYPOINT ["uwsgi", "/kleep/uwsgi.ini"]
+ENTRYPOINT ["uwsgi", "/kleep/uwsgi.ini"]
