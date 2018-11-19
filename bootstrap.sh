@@ -37,6 +37,7 @@ bootstrap() {
 
     if [ "$PULL_IMAGES" = true ] ; then
         echo "Downloading other required images"
+        docker pull postgres
         docker pull nginx
     else
         echo "Skipped pulling other images"
@@ -47,8 +48,9 @@ bootstrap() {
         cd $1
         touch launch.sh
         echo "docker network create privateNet" > launch.sh
-        echo "docker run --name nginx --rm -d -p -v $(pwd):/kleep --network privateNet claudioap/kleep &" >> launch.sh
-        echo "docker run --name kleep --rm -d -p 80:80 -v $(pwd)/html:/srv/http:ro -v $(pwd)/configurations/nginx:/etc/nginx:ro --network privateNet nginx &" >> launch.sh
+        echo "docker run --name nginx --rm -d -p 80:80 -v $(pwd)/html:/srv/http:ro -v $(pwd)/configurations/nginx:/etc/nginx:ro --network privateNet nginx &" >> launch.sh
+        echo "docker run --name postgres -d -e POSTGRES_USER=kleep POSTGRES_PASSWORD=changeme -p 5432:5432 --network privateNet postgres &" >> launch.sh
+        echo "docker run --name kleep --rm -d -p 1893:1893 -v $(pwd):/kleep --network privateNet claudioap/kleep &" >> launch.sh
         chmod +x launch.sh
     fi
 }

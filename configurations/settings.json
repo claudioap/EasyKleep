@@ -5,13 +5,13 @@
       "ENGINE": "django.db.backends.postgresql",
       "NAME": "kleep",
       "USER": "kleep",
-      "PASSWORD": "",
-      "HOST": "localhost",
+      "PASSWORD": "changeme",
+      "HOST": "postgres",
       "PORT": "5432"
     },
     "vulnerabilities": {
       "ENGINE": "django.db.backends.sqlite3",
-      "NAME": "/kleep/vulnerabilities.db"
+      "NAME": "/kleep/databases/vulnerabilities.db"
     }
   },
   "CLIP_USERNAME": "",
